@@ -1,0 +1,1401 @@
+-- Decompiler will be improved VERY SOON!
+-- Decompiled with Konstant V2.1, a fast Luau decompiler made in Luau by plusgiant5 (https://discord.gg/wyButjTMhM)
+-- Decompiled on 2025-05-23 11:40:22
+-- Luau version 6, Types version 3
+-- Time taken: 0.044063 seconds
+
+-- KONSTANTWARNING: Variable analysis failed. Output will have some incorrect variable assignments
+local ReplicatedStorage_upvr = game:GetService("ReplicatedStorage")
+local CollectionService_upvr = game:GetService("CollectionService")
+local UserInputService_upvr = game:GetService("UserInputService")
+local Debris_upvr_2 = game:GetService("Debris")
+local LocalPlayer_upvr = game:GetService("Players").LocalPlayer
+local Parent_upvr = script.Parent
+local Handle_upvr = Parent_upvr:WaitForChild("Handle")
+local module_upvr = require(Parent_upvr:WaitForChild("ItemConfig"))
+local WeaponType_upvr = module_upvr.WeaponType
+local var22_upvr = module_upvr[WeaponType_upvr]
+local var23_upvw
+local var24_upvw
+local var25_upvw = false
+local var26_upvw
+local var27_upvw
+local var28_upvw
+local var29_upvw = 0
+local OverlapParams_new_result1_upvr = OverlapParams.new()
+OverlapParams_new_result1_upvr.FilterType = Enum.RaycastFilterType.Include
+OverlapParams_new_result1_upvr.FilterDescendantsInstances = {workspace:WaitForChild("Mobs")}
+OverlapParams_new_result1_upvr.RespectCanCollide = false
+local RaycastParams_new_result1_upvr = RaycastParams.new()
+RaycastParams_new_result1_upvr.FilterType = Enum.RaycastFilterType.Exclude
+RaycastParams_new_result1_upvr.FilterDescendantsInstances = {workspace:WaitForChild("Characters"), workspace.PlayerMobs, workspace:WaitForChild("Temporary")}
+local function _(arg1) -- Line 66, Named "CreateSound"
+	--[[ Upvalues[1]:
+		[1]: Handle_upvr (readonly)
+	]]
+	local Sound = Instance.new("Sound")
+	Sound.SoundId = arg1
+	Sound.Volume = 0.3
+	Sound.SoundGroup = game:GetService("SoundService").All
+	Sound.RollOffMaxDistance = 100
+	Sound.Parent = Handle_upvr
+	return Sound
+end
+local function _(arg1) -- Line 76, Named "CreateAnimation"
+	local Animation = Instance.new("Animation")
+	Animation.AnimationId = arg1
+	return Animation
+end
+local function _(arg1, arg2, arg3, arg4) -- Line 82, Named "CreateAnimationTrack"
+	local any_LoadAnimation_result1 = arg2:LoadAnimation(arg1)
+	any_LoadAnimation_result1.Priority = arg3
+	any_LoadAnimation_result1.Looped = arg4
+	return any_LoadAnimation_result1
+end
+local function GetMouseHit_upvr() -- Line 89, Named "GetMouseHit"
+	--[[ Upvalues[2]:
+		[1]: UserInputService_upvr (readonly)
+		[2]: RaycastParams_new_result1_upvr (readonly)
+	]]
+	local any_GetMouseLocation_result1 = UserInputService_upvr:GetMouseLocation()
+	local any_ViewportPointToRay_result1 = workspace.CurrentCamera:ViewportPointToRay(any_GetMouseLocation_result1.X, any_GetMouseLocation_result1.Y)
+	local workspace_Raycast_result1 = workspace:Raycast(any_ViewportPointToRay_result1.Origin, any_ViewportPointToRay_result1.Direction * 1000, RaycastParams_new_result1_upvr)
+	local var40
+	local function INLINED() -- Internal function, doesn't exist in bytecode
+		var40 = workspace_Raycast_result1.Position
+		return var40
+	end
+	if not workspace_Raycast_result1 or not INLINED() then
+		var40 = any_ViewportPointToRay_result1.Origin + any_ViewportPointToRay_result1.Direction.Unit * 1000
+	end
+	return var40
+end
+local tbl_5_upvr = {}
+if module_upvr.WeaponType == "Melee" and Parent_upvr.Name ~= "Fist" then
+	local var42_upvw
+	local var43_upvw
+	local var44_upvw
+	local function doTrailForInstance(arg1, arg2) -- Line 108
+		--[[ Upvalues[6]:
+			[1]: Handle_upvr (readonly)
+			[2]: var42_upvw (read and write)
+			[3]: var43_upvw (read and write)
+			[4]: Parent_upvr (readonly)
+			[5]: tbl_5_upvr (readonly)
+			[6]: var44_upvw (read and write)
+		]]
+		-- KONSTANTWARNING: Variable analysis failed. Output will have some incorrect variable assignments
+		-- KONSTANTERROR: [0] 1. Error Block 61 start (CF ANALYSIS FAILED)
+		local var66
+		if not arg2 then
+			var66 = arg1.Size
+		else
+			local any_GetBoundingBox_result1, any_GetBoundingBox_result2_2 = arg1:GetBoundingBox()
+			var66 = any_GetBoundingBox_result2_2
+		end
+		local maximum = math.max(var66.X, var66.Y, var66.Z)
+		if maximum ~= var66.X or not maximum then
+		end
+		if maximum ~= var66.Y or not maximum then
+		end
+		if maximum ~= var66.Z or not maximum then
+		end
+		local var70 = Vector3.new(0, 0, 0) / 2
+		if arg2 then
+			local Part = Instance.new("Part")
+			Part.Transparency = 1
+			Part.Size = var66
+			Part.CFrame = any_GetBoundingBox_result1
+			Part.CanCollide = false
+			Part.Massless = true
+			Part.Name = "Hitbox"
+			local WeldConstraint = Instance.new("WeldConstraint")
+			WeldConstraint.Part0 = Part
+			WeldConstraint.Part1 = Handle_upvr
+			WeldConstraint.Parent = Part
+		else
+		end
+		local Attachment_2 = Instance.new("Attachment")
+		Attachment_2.Parent = arg1
+		var42_upvw = Instance.new("Attachment")
+		var42_upvw.CFrame = CFrame.new(var70)
+		-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+		var42_upvw.Parent = arg1
+		var43_upvw = Instance.new("Attachment")
+		var43_upvw.CFrame = CFrame.new(-var70)
+		-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+		var43_upvw.Parent = arg1
+		local clone_2 = script.Trail:Clone()
+		-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+		clone_2.Parent = arg1
+		clone_2.Attachment1 = Attachment_2
+		clone_2.Enabled = false
+		if Parent_upvr.Name ~= "The God Rock" then
+			table.insert(tbl_5_upvr, {
+				trail = clone_2;
+				a1 = var42_upvw;
+				a2 = var43_upvw;
+			})
+		end
+		local Color3_fromRGB_result1_upvw = Color3.fromRGB(0, 0, 0)
+		local function _(arg1_3) -- Line 163, Named "checkGreaterColor"
+			--[[ Upvalues[1]:
+				[1]: Color3_fromRGB_result1_upvw (read and write)
+			]]
+			local _, _, any_ToHSV_result3_2 = Color3_fromRGB_result1_upvw:ToHSV()
+			local any_ToHSV_result1_2, any_ToHSV_result2, any_ToHSV_result3 = arg1_3.Color:ToHSV()
+			local var83
+			local function INLINED_5() -- Internal function, doesn't exist in bytecode
+				var83 = arg1_3:IsA("BasePart")
+				return var83
+			end
+			local function INLINED_6() -- Internal function, doesn't exist in bytecode
+				var83 = arg1_3.Material
+				return var83 == "Neon"
+			end
+			if any_ToHSV_result3_2 < any_ToHSV_result3 or INLINED_5() and INLINED_6() then
+				local function INLINED_7() -- Internal function, doesn't exist in bytecode
+					var83 = Color3.fromHSV(any_ToHSV_result1_2, any_ToHSV_result2 + 0.5, any_ToHSV_result3 + 0.5)
+					return var83
+				end
+				if not arg1_3:IsA("BasePart") or arg1_3.Material ~= "Neon" or not INLINED_7() then
+					var83 = arg1_3.Color
+				end
+				Color3_fromRGB_result1_upvw = var83
+			end
+		end
+		local descendants, NONE_7, NONE_12 = arg1:GetDescendants()
+		-- KONSTANTERROR: [0] 1. Error Block 61 end (CF ANALYSIS FAILED)
+		-- KONSTANTERROR: [201] 143. Error Block 34 start (CF ANALYSIS FAILED)
+		-- KONSTANTERROR: [201] 143. Error Block 34 end (CF ANALYSIS FAILED)
+		-- KONSTANTERROR: [167] 118. Error Block 62 start (CF ANALYSIS FAILED)
+		-- KONSTANTWARNING: Failed to evaluate expression, replaced with nil [201.16]
+		if nil then
+			-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+			if nil ~= 1 then
+				-- KONSTANTERROR: Expression was reused, decompilation is incorrect (x2)
+				if not nil or nil == "" then
+					-- KONSTANTWARNING: GOTO [201] #143
+				end
+				-- KONSTANTWARNING: GOTO [201] #143
+			end
+		end
+		-- KONSTANTERROR: Expression was reused, decompilation is incorrect (x2)
+		if nil and nil == true then
+		end
+		-- KONSTANTERROR: [167] 118. Error Block 62 end (CF ANALYSIS FAILED)
+	end
+	if Parent_upvr:FindFirstChild("DualWield") then
+		doTrailForInstance(Parent_upvr:WaitForChild("Handle"))
+		doTrailForInstance(Parent_upvr:WaitForChild("DisplayHandle"))
+	elseif Parent_upvr:FindFirstChild("DualWieldShield") then
+		doTrailForInstance(Parent_upvr:WaitForChild("Handle"))
+	else
+		doTrailForInstance(Parent_upvr, true)
+	end
+end
+local var87_upvw = 1
+local var88_upvw = 1
+for i_upvr, v_upvr in module_upvr.Attack.Animations do
+	for i_2 = 1, #v_upvr do
+		local Animation_2 = Instance.new("Animation")
+		Animation_2.AnimationId = v_upvr[i_2]
+		table.insert(({
+			Light = {};
+			Heavy = {};
+		})[i_upvr], Animation_2)
+		local var91_upvr
+	end
+end
+local EquipAnimation_upvr = module_upvr.EquipAnimation
+if EquipAnimation_upvr then
+	i_upvr = "Animation"
+	local any = Instance.new(i_upvr)
+	any.AnimationId = module_upvr.EquipAnimation
+	EquipAnimation_upvr = any
+end
+local HoldAnimation_upvr = module_upvr.HoldAnimation
+if HoldAnimation_upvr then
+	i_upvr = Instance.new
+	v_upvr = "Animation"
+	i_upvr = i_upvr(v_upvr)
+	i_upvr.AnimationId = module_upvr.HoldAnimation
+	HoldAnimation_upvr = i_upvr
+end
+local WalkAnimation_upvr = module_upvr.WalkAnimation
+if WalkAnimation_upvr then
+	i_upvr = module_upvr.WalkAnimation
+	v_upvr = Instance.new("Animation")
+	v_upvr.AnimationId = i_upvr
+	WalkAnimation_upvr = v_upvr
+end
+i_upvr = module_upvr.ActivateSound
+if i_upvr then
+	v_upvr = module_upvr.ActivateSound
+	local Sound_4 = Instance.new("Sound")
+	Sound_4.SoundId = v_upvr
+	Sound_4.Volume = 0.3
+	Sound_4.SoundGroup = game:GetService("SoundService").All
+	Sound_4.RollOffMaxDistance = 100
+	Sound_4.Parent = Handle_upvr
+	i_upvr = Sound_4
+end
+v_upvr = module_upvr.EquipSound
+if v_upvr then
+	local Sound_2 = Instance.new("Sound")
+	Sound_2.SoundId = module_upvr.EquipSound
+	Sound_2.Volume = 0.3
+	Sound_2.SoundGroup = game:GetService("SoundService").All
+	Sound_2.RollOffMaxDistance = 100
+	Sound_2.Parent = Handle_upvr
+	v_upvr = Sound_2
+end
+local tbl_4_upvr = {}
+local ClientMain_upvr = LocalPlayer_upvr.PlayerScripts:WaitForChild("ClientMain")
+local SFX_upvr = require(ReplicatedStorage_upvr.Modules.SFX)
+local function ConnectDamage_upvr(arg1) -- Line 229, Named "ConnectDamage"
+	--[[ Upvalues[7]:
+		[1]: tbl_4_upvr (readonly)
+		[2]: WeaponType_upvr (readonly)
+		[3]: module_upvr (readonly)
+		[4]: ClientMain_upvr (readonly)
+		[5]: ReplicatedStorage_upvr (readonly)
+		[6]: Parent_upvr (readonly)
+		[7]: SFX_upvr (readonly)
+	]]
+	local var105 = arg1
+	if var105 then
+		var105 = arg1:FindFirstChildOfClass("Humanoid")
+	end
+	if var105 then
+		local var106
+		if not table.find(tbl_4_upvr, arg1) then
+			local function INLINED_9() -- Internal function, doesn't exist in bytecode
+				var106 = module_upvr.Cooldown
+				return var106
+			end
+			if WeaponType_upvr ~= "Melee" or not INLINED_9() then
+				var106 = module_upvr.Cooldown / 2
+			end
+			task.delay(var106, function() -- Line 232
+				--[[ Upvalues[2]:
+					[1]: tbl_4_upvr (copied, readonly)
+					[2]: arg1 (readonly)
+				]]
+				local table_find_result1 = table.find(tbl_4_upvr, arg1)
+				if table_find_result1 then
+					table.remove(tbl_4_upvr, table_find_result1)
+				end
+			end)
+			var106 = tbl_4_upvr
+			table.insert(var106, arg1)
+			var106 = 0
+			if var106 < var105.Health then
+				var106 = ClientMain_upvr
+				if var106.Parent and ClientMain_upvr:FindFirstChild("Client", true) then
+					if arg1:GetAttribute("Debounce") then
+						var106 = os.clock()
+						var106 = module_upvr.Cooldown / 1.75
+						if var106 - arg1:GetAttribute("Debounce") < var106 then return end
+					end
+					arg1:SetAttribute("Debounce", os.clock())
+					var106 = ReplicatedStorage_upvr.Remotes
+					var106.DamageMob:FireServer(arg1, nil, Parent_upvr.Name)
+					if not arg1:GetAttribute("Blocking") then
+						var106 = SFX_upvr.Play2D
+						task.spawn(var106, SFX_upvr, 9119561229)
+					end
+				end
+			end
+		end
+	end
+end
+local AOE_upvr = module_upvr.AOE
+local Debris_upvr = workspace:WaitForChild("Debris")
+local TweenService_upvr = game:GetService("TweenService")
+local function DoAreaOfEffect_upvr(arg1) -- Line 254, Named "DoAreaOfEffect"
+	--[[ Upvalues[7]:
+		[1]: AOE_upvr (readonly)
+		[2]: CollectionService_upvr (readonly)
+		[3]: Debris_upvr (readonly)
+		[4]: TweenService_upvr (readonly)
+		[5]: Debris_upvr_2 (readonly)
+		[6]: tbl_4_upvr (readonly)
+		[7]: ConnectDamage_upvr (readonly)
+	]]
+	if AOE_upvr and arg1 then
+		local Part_2_upvr = Instance.new("Part")
+		Part_2_upvr.Shape = Enum.PartType.Ball
+		Part_2_upvr.Size = Vector3.new(0, 0, 0)
+		Part_2_upvr.Position = arg1
+		Part_2_upvr.Anchored = true
+		Part_2_upvr.Transparency = AOE_upvr.Transparency or 0.5
+		Part_2_upvr.CastShadow = false
+		Part_2_upvr.Material = Enum.Material.Neon
+		local Color = AOE_upvr.Color
+		if not Color then
+			Color = Color3.new(1, 0, 0)
+		end
+		Part_2_upvr.Color = Color
+		Part_2_upvr.CanCollide = false
+		CollectionService_upvr:AddTag(Part_2_upvr, "Explosion")
+		Part_2_upvr.Parent = Debris_upvr
+		local var114_upvr = AOE_upvr.LingerTime or 1
+		TweenService_upvr:Create(Part_2_upvr, TweenInfo.new(var114_upvr * 2, Enum.EasingStyle.Circular, Enum.EasingDirection.Out), {
+			Size = AOE_upvr.Size;
+			Transparency = 1;
+		}):Play()
+		Debris_upvr_2:AddItem(Part_2_upvr, var114_upvr * 2)
+		if AOE_upvr.Sound then
+			local Sound_3 = Instance.new("Sound")
+			Sound_3.SoundGroup = game:GetService("SoundService").All
+			Sound_3.SoundId = "rbxassetid://"..AOE_upvr.Sound
+			Sound_3.Volume = 0.8
+			Sound_3.Parent = Part_2_upvr
+			Sound_3.PlayOnRemove = true
+			Sound_3:Destroy()
+		end
+		local os_clock_result1_upvr = os.clock()
+		task.spawn(function() -- Line 292
+			--[[ Upvalues[6]:
+				[1]: os_clock_result1_upvr (readonly)
+				[2]: var114_upvr (readonly)
+				[3]: Part_2_upvr (readonly)
+				[4]: CollectionService_upvr (copied, readonly)
+				[5]: tbl_4_upvr (copied, readonly)
+				[6]: ConnectDamage_upvr (copied, readonly)
+			]]
+			while os.clock() - os_clock_result1_upvr < var114_upvr do
+				for _, v_2 in workspace:GetPartBoundsInRadius(Part_2_upvr.Position, Part_2_upvr.Size.X / 2) do
+					local class_Model = v_2:FindFirstAncestorOfClass("Model")
+					if class_Model and CollectionService_upvr:HasTag(class_Model, "Mob") and not table.find(tbl_4_upvr, class_Model) then
+						ConnectDamage_upvr(class_Model)
+					end
+				end
+				task.wait(0.1)
+			end
+		end)
+	end
+end
+local function OnTouched_upvr(arg1, arg2) -- Line 307, Named "OnTouched"
+	--[[ Upvalues[5]:
+		[1]: DoAreaOfEffect_upvr (readonly)
+		[2]: WeaponType_upvr (readonly)
+		[3]: Parent_upvr (readonly)
+		[4]: CollectionService_upvr (readonly)
+		[5]: ConnectDamage_upvr (readonly)
+	]]
+	task.spawn(DoAreaOfEffect_upvr, arg2)
+	local class_Model_2 = arg1:FindFirstAncestorOfClass("Model")
+	if WeaponType_upvr ~= "Melee" or not Parent_upvr.Enabled then
+		if not class_Model_2 or not CollectionService_upvr:HasTag(class_Model_2, "Mob") then return end
+		ConnectDamage_upvr(class_Model_2)
+	end
+end
+local tbl_2_upvr = {
+	Init__ = false;
+}
+local os_clock_result1_4_upvw = os.clock()
+local RunService_upvr = game:GetService("RunService")
+local SOME_upvr = ReplicatedStorage_upvr:WaitForChild("PlayerData"):WaitForChild(LocalPlayer_upvr.UserId)
+local Casting_upvr = require(ReplicatedStorage_upvr.Modules.Casting)
+local PartCache_upvr = require(ReplicatedStorage_upvr.Modules.Casting.PartCache)
+local ProjectileCache_upvr = workspace:WaitForChild("Temporary"):WaitForChild("ProjectileCache")
+local random_state_upvr = Random.new()
+if not tbl_2_upvr.Init__ then
+	tbl_2_upvr.Init__ = true
+	;(function() -- Line 328, Named "Init"
+		--[[ Upvalues[28]:
+			[1]: WeaponType_upvr (readonly)
+			[2]: module_upvr (readonly)
+			[3]: var23_upvw (read and write)
+			[4]: var29_upvw (read and write)
+			[5]: var91_upvr (readonly)
+			[6]: var87_upvw (read and write)
+			[7]: var88_upvw (read and write)
+			[8]: os_clock_result1_4_upvw (read and write)
+			[9]: tbl_5_upvr (readonly)
+			[10]: Parent_upvr (readonly)
+			[11]: i_upvr (readonly)
+			[12]: ReplicatedStorage_upvr (readonly)
+			[13]: tbl_2_upvr (readonly)
+			[14]: var44_upvw (read and write)
+			[15]: Handle_upvr (readonly)
+			[16]: OverlapParams_new_result1_upvr (readonly)
+			[17]: OnTouched_upvr (readonly)
+			[18]: RunService_upvr (readonly)
+			[19]: SOME_upvr (readonly)
+			[20]: Debris_upvr_2 (readonly)
+			[21]: Casting_upvr (readonly)
+			[22]: PartCache_upvr (readonly)
+			[23]: var22_upvr (readonly)
+			[24]: ProjectileCache_upvr (readonly)
+			[25]: GetMouseHit_upvr (readonly)
+			[26]: UserInputService_upvr (readonly)
+			[27]: LocalPlayer_upvr (readonly)
+			[28]: random_state_upvr (readonly)
+		]]
+		local var134
+		if WeaponType_upvr ~= "Melee" then
+			var134 = false
+		else
+			var134 = true
+		end
+		if var134 then
+			local function Animate(arg1, arg2) -- Line 332
+				--[[ Upvalues[11]:
+					[1]: module_upvr (copied, readonly)
+					[2]: var23_upvw (copied, read and write)
+					[3]: var29_upvw (copied, read and write)
+					[4]: var91_upvr (copied, readonly)
+					[5]: var87_upvw (copied, read and write)
+					[6]: var88_upvw (copied, read and write)
+					[7]: os_clock_result1_4_upvw (copied, read and write)
+					[8]: tbl_5_upvr (copied, readonly)
+					[9]: Parent_upvr (copied, readonly)
+					[10]: i_upvr (copied, readonly)
+					[11]: ReplicatedStorage_upvr (copied, readonly)
+				]]
+				-- KONSTANTWARNING: Variable analysis failed. Output will have some incorrect variable assignments
+				-- KONSTANTERROR: [44] 31. Error Block 9 start (CF ANALYSIS FAILED)
+				-- KONSTANTERROR: [44] 31. Error Block 9 end (CF ANALYSIS FAILED)
+				-- KONSTANTERROR: [0] 1. Error Block 59 start (CF ANALYSIS FAILED)
+				local function INLINED_13() -- Internal function, doesn't exist in bytecode
+					-- KONSTANTWARNING: Failed to evaluate expression, replaced with nil [44.4]
+					return nil
+				end
+				if not nil or not INLINED_13() then
+				end
+				-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+				local function INLINED_14() -- Internal function, doesn't exist in bytecode
+					-- KONSTANTWARNING: Failed to evaluate expression, replaced with nil [44.6]
+					return nil
+				end
+				local function INLINED_15() -- Internal function, doesn't exist in bytecode
+					-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+					return nil
+				end
+				if not nil or not INLINED_14() or not INLINED_15() then
+					-- KONSTANTWARNING: GOTO [45] #32
+				end
+				-- KONSTANTERROR: [0] 1. Error Block 59 end (CF ANALYSIS FAILED)
+				-- KONSTANTERROR: [45] 32. Error Block 60 start (CF ANALYSIS FAILED)
+				if var23_upvw then
+					if var23_upvw.IsPlaying then
+						var23_upvw:Stop()
+						var23_upvw:Destroy()
+						var23_upvw = nil
+					end
+				end
+				local var179_upvw
+				-- KONSTANTERROR: Expression was reused, decompilation is incorrect (x3)
+				if not nil or nil and var29_upvw < nil or var91_upvr.Light[1] then
+					-- KONSTANTWARNING: Failed to evaluate expression, replaced with nil [80.3]
+					local any_LoadAnimation_result1_10 = nil:LoadAnimation(var91_upvr.Light[var87_upvw])
+					any_LoadAnimation_result1_10.Priority = Enum.AnimationPriority.Action2
+					any_LoadAnimation_result1_10.Looped = false
+					var179_upvw = any_LoadAnimation_result1_10
+					local var181 = var87_upvw % #var91_upvr.Light
+					var87_upvw = var181 + 1
+					-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+					if nil then
+						var181 = 1
+					else
+						var181 = 0
+					end
+					var29_upvw += var181
+				else
+					-- KONSTANTERROR: Expression was reused, decompilation is incorrect (x2)
+					if nil and nil <= var29_upvw and var91_upvr.Heavy[1] then
+						local any_LoadAnimation_result1_12 = nil:LoadAnimation(var91_upvr.Heavy[var88_upvw])
+						any_LoadAnimation_result1_12.Priority = Enum.AnimationPriority.Action2
+						any_LoadAnimation_result1_12.Looped = false
+						var179_upvw = any_LoadAnimation_result1_12
+						var88_upvw = var88_upvw % #var91_upvr.Heavy + 1
+						var29_upvw = 0
+						local var183_upvr
+					end
+				end
+				if var179_upvw then
+					local os_clock_result1_3_upvr = os.clock()
+					os_clock_result1_4_upvw = os_clock_result1_3_upvr
+					if module_upvr.Cooldown > 0.6 then
+						var183_upvr = false
+					else
+						var183_upvr = true
+					end
+					arg2:SetAttribute("Swinging", os_clock_result1_3_upvr)
+					var179_upvw.Name = "Swing"
+					var179_upvw.Priority = Enum.AnimationPriority.Action2
+					var179_upvw:Play(0.25, 5, 1)
+					var23_upvw = var179_upvw
+					for _, v_3 in tbl_5_upvr do
+						v_3.trail:SetAttribute("Clock", os.clock())
+						local var186_upvr
+					end
+					-- KONSTANTWARNING: Failed to evaluate expression, replaced with nil [191.2]
+					local var188_upvr
+					task.spawn(function() -- Line 390
+						--[[ Upvalues[10]:
+							[1]: var179_upvw (read and write)
+							[2]: Parent_upvr (copied, readonly)
+							[3]: var188_upvr (readonly)
+							[4]: arg2 (readonly)
+							[5]: os_clock_result1_3_upvr (readonly)
+							[6]: var183_upvr (readonly)
+							[7]: tbl_5_upvr (copied, readonly)
+							[8]: var186_upvr (readonly)
+							[9]: module_upvr (copied, readonly)
+							[10]: i_upvr (copied, readonly)
+						]]
+						if var179_upvw.Length == 0 then
+							repeat
+								task.wait()
+							until var179_upvw.Length ~= 0
+						end
+						local function onTrackEnded_upvr() -- Line 395, Named "onTrackEnded"
+							--[[ Upvalues[6]:
+								[1]: Parent_upvr (copied, readonly)
+								[2]: var188_upvr (copied, readonly)
+								[3]: arg2 (copied, readonly)
+								[4]: os_clock_result1_3_upvr (copied, readonly)
+								[5]: var179_upvw (copied, read and write)
+								[6]: var183_upvr (copied, readonly)
+							]]
+							if Parent_upvr:IsDescendantOf(workspace) and 0 < var188_upvr.Health then
+								local var191 = "Swinging"
+								local var192
+								if arg2:GetAttribute(var191) == var192 then
+									if var183_upvr then
+										var191 = 0.5
+									else
+										var191 = 0.65
+									end
+									var179_upvw:Stop(var191)
+									var191 = var183_upvr
+									if var191 then
+										var192 = 0.35
+									else
+										var192 = 0.55
+									end
+									task.wait(var192)
+									var191 = "Swinging"
+									var192 = os_clock_result1_3_upvr
+									if arg2:GetAttribute(var191) == var192 then
+										var191 = "Active"
+										Parent_upvr:SetAttribute(var191, nil)
+										var191 = "Swinging"
+										arg2:SetAttribute(var191, nil)
+									end
+								end
+							end
+						end
+						local function stopTrails_upvr() -- Line 410, Named "stopTrails"
+							--[[ Upvalues[2]:
+								[1]: tbl_5_upvr (copied, readonly)
+								[2]: var186_upvr (copied, readonly)
+							]]
+							for _, v_4 in tbl_5_upvr do
+								if v_4.trail:GetAttribute("Clock") == var186_upvr then
+									v_4.trail.Enabled = false
+								end
+							end
+						end
+						local var195 = var179_upvw.Length / module_upvr.Cooldown
+						if var183_upvr then
+							var179_upvw:AdjustSpeed(var195)
+							Parent_upvr:SetAttribute("Active", true)
+							if i_upvr then
+								i_upvr:Play()
+							end
+							task.delay(module_upvr.Cooldown / 1.25, stopTrails_upvr)
+							task.delay(0.05, function() -- Line 434
+								--[[ Upvalues[1]:
+									[1]: tbl_5_upvr (copied, readonly)
+								]]
+								for _, v_5 in tbl_5_upvr do
+									v_5.trail.Enabled = true
+								end
+							end)
+							task.delay(var179_upvw.Length / var195 - 0.25, onTrackEnded_upvr)
+						else
+							local var199 = var195 / module_upvr.Cooldown * 0.4
+							var179_upvw:AdjustSpeed(var199)
+							task.delay(var179_upvw.Length / var199 * 0.2, function() -- Line 445
+								--[[ Upvalues[7]:
+									[1]: var179_upvw (copied, read and write)
+									[2]: module_upvr (copied, readonly)
+									[3]: Parent_upvr (copied, readonly)
+									[4]: i_upvr (copied, readonly)
+									[5]: stopTrails_upvr (readonly)
+									[6]: tbl_5_upvr (copied, readonly)
+									[7]: onTrackEnded_upvr (readonly)
+								]]
+								local var201 = 2 + module_upvr.Cooldown / 4.5 - 1
+								var179_upvw:AdjustSpeed(var201)
+								Parent_upvr:SetAttribute("Active", true)
+								if i_upvr then
+									i_upvr:Play()
+								end
+								task.delay(module_upvr.Cooldown / 1.7, stopTrails_upvr)
+								task.delay(0.05, function() -- Line 461
+									--[[ Upvalues[1]:
+										[1]: tbl_5_upvr (copied, readonly)
+									]]
+									for _, v_6 in tbl_5_upvr do
+										v_6.trail.Enabled = true
+									end
+								end)
+								task.delay((var179_upvw.Length - var179_upvw.TimePosition) / var201 - 0.25, onTrackEnded_upvr)
+							end)
+						end
+						if var179_upvw.IsPlaying then
+							var179_upvw.Ended:Wait()
+						end
+						for i_8, v_7 in tbl_5_upvr do
+							if v_7.trail:GetAttribute("Clock") == var186_upvr then
+								v_7.trail.Enabled = false
+							end
+						end
+						if not arg2:GetAttribute("clientParry") and arg2:GetAttribute("Swinging") == os_clock_result1_3_upvr and 0 < var188_upvr.Health and Parent_upvr:IsDescendantOf(workspace) then
+							i_8 = nil
+							Parent_upvr:SetAttribute("Active", i_8)
+							i_8 = nil
+							arg2:SetAttribute("Swinging", i_8)
+						end
+					end)
+				end
+				-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+				if nil then
+					var186_upvr = ReplicatedStorage_upvr
+					var183_upvr = var186_upvr.Remotes
+					os_clock_result1_3_upvr = var183_upvr.ToolActivated
+					var186_upvr = Parent_upvr
+					os_clock_result1_3_upvr = os_clock_result1_3_upvr:FireServer
+					os_clock_result1_3_upvr(var186_upvr)
+				end
+				-- KONSTANTERROR: [45] 32. Error Block 60 end (CF ANALYSIS FAILED)
+			end
+			tbl_2_upvr.Animate = Animate
+			local function Hit(arg1, arg2) -- Line 494
+				--[[ Upvalues[7]:
+					[1]: Parent_upvr (copied, readonly)
+					[2]: os_clock_result1_4_upvw (copied, read and write)
+					[3]: var44_upvw (copied, read and write)
+					[4]: Handle_upvr (copied, readonly)
+					[5]: OverlapParams_new_result1_upvr (copied, readonly)
+					[6]: OnTouched_upvr (copied, readonly)
+					[7]: RunService_upvr (copied, readonly)
+				]]
+				task.spawn(function() -- Line 495
+					--[[ Upvalues[8]:
+						[1]: Parent_upvr (copied, readonly)
+						[2]: arg2 (readonly)
+						[3]: os_clock_result1_4_upvw (copied, read and write)
+						[4]: var44_upvw (copied, read and write)
+						[5]: Handle_upvr (copied, readonly)
+						[6]: OverlapParams_new_result1_upvr (copied, readonly)
+						[7]: OnTouched_upvr (copied, readonly)
+						[8]: RunService_upvr (copied, readonly)
+					]]
+					-- KONSTANTWARNING: Variable analysis failed. Output will have some incorrect variable assignments
+					while not Parent_upvr.Enabled and arg2:GetAttribute("Swinging") == os_clock_result1_4_upvw and not arg2:GetAttribute("Dashing") do
+						local var214
+						if var214 then
+							local function INLINED_16() -- Internal function, doesn't exist in bytecode
+								var214 = var44_upvw.CFrame
+								return var214
+							end
+							if not var44_upvw or not INLINED_16() then
+								var214 = Handle_upvr.CFrame
+							end
+							if not var44_upvw or not var44_upvw.Size then
+							end
+							for _, v_8 in workspace:GetPartBoundsInBox(var214, Handle_upvr.Size, OverlapParams_new_result1_upvr) do
+								OnTouched_upvr(v_8)
+							end
+						end
+						RunService_upvr.Heartbeat:Wait()
+					end
+				end)
+			end
+			tbl_2_upvr.Hit = Hit
+		elseif not var134 then
+			local function Animate(arg1, arg2) -- Line 510
+				--[[ Upvalues[7]:
+					[1]: WeaponType_upvr (copied, readonly)
+					[2]: var23_upvw (copied, read and write)
+					[3]: var91_upvr (copied, readonly)
+					[4]: i_upvr (copied, readonly)
+					[5]: SOME_upvr (copied, readonly)
+					[6]: Parent_upvr (copied, readonly)
+					[7]: Debris_upvr_2 (copied, readonly)
+				]]
+				-- KONSTANTERROR: [0] 1. Error Block 37 start (CF ANALYSIS FAILED)
+				if WeaponType_upvr == "Throwable" then
+					if var23_upvw then
+						var23_upvw:Stop(0)
+						var23_upvw:Destroy()
+						var23_upvw = nil
+					end
+					local any_LoadAnimation_result1_11 = arg2:WaitForChild("Humanoid"):WaitForChild("Animator"):LoadAnimation(var91_upvr.Light[math.random(1, #var91_upvr.Light)])
+					any_LoadAnimation_result1_11.Priority = Enum.AnimationPriority.Action3
+					any_LoadAnimation_result1_11.Looped = false
+					local var224 = any_LoadAnimation_result1_11
+					if var224 and not arg2:GetAttribute("Dashing") then
+						var224:Play(0)
+						var224.Name = "Swing"
+						var23_upvw = var224
+						-- KONSTANTWARNING: GOTO [121] #94
+					end
+					-- KONSTANTWARNING: GOTO [121] #94
+				end
+				-- KONSTANTERROR: [0] 1. Error Block 37 end (CF ANALYSIS FAILED)
+				-- KONSTANTERROR: [63] 49. Error Block 38 start (CF ANALYSIS FAILED)
+				if var23_upvw then
+					var23_upvw:Stop(0.25)
+					var23_upvw:Destroy()
+					var23_upvw = nil
+				end
+				local any_LoadAnimation_result1_7 = arg2:WaitForChild("Humanoid"):WaitForChild("Animator"):LoadAnimation(var91_upvr.Light[math.random(1, #var91_upvr.Light)])
+				any_LoadAnimation_result1_7.Priority = Enum.AnimationPriority.Action2
+				any_LoadAnimation_result1_7.Looped = false
+				local var226 = any_LoadAnimation_result1_7
+				if var226 then
+					local var227
+					if not arg2:GetAttribute("Dashing") then
+						if WeaponType_upvr == "Potion" then
+							var227 = 2
+						else
+							var227 = 1
+						end
+						var226:Play(1, 5, var227)
+						var226.Name = "Swing"
+						var23_upvw = var226
+					end
+				end
+				if i_upvr then
+					if WeaponType_upvr == "Throwable" and SOME_upvr.Items.Tool:WaitForChild(Parent_upvr.Name).Value <= 1 then
+						i_upvr.Parent = arg2:WaitForChild("Torso")
+						Debris_upvr_2:AddItem(i_upvr, 10)
+					end
+					i_upvr:Play()
+				end
+				-- KONSTANTERROR: [63] 49. Error Block 38 end (CF ANALYSIS FAILED)
+			end
+			tbl_2_upvr.Animate = Animate
+			Animate = WeaponType_upvr
+			local var228_upvr = Animate
+			if var228_upvr == "Ranged" then
+				if Handle_upvr:FindFirstChild("CastPoint") then
+					var228_upvr = Handle_upvr:FindFirstChild("CastPoint")
+				else
+					var228_upvr = warn(Parent_upvr.Name..": For accurate Projectiles add a Attachment \"CastPoint\" into Handle")
+				end
+				local any_new_result1_upvr_2 = Casting_upvr.new()
+				local any_new_result1_upvr = PartCache_upvr.new(ReplicatedStorage_upvr.CastingMesh[var22_upvr.CastingMesh], nil, ProjectileCache_upvr)
+				any_new_result1_upvr_2:HookFunction("LengthChanged", function(arg1) -- Line 570
+					local var232 = arg1.Position + (-arg1.Direction.Unit) * (arg1.UserData.CastingMesh.Size.Z / 2)
+					arg1.UserData.CastingMesh.CFrame = CFrame.lookAt(var232, var232 + arg1.Direction)
+				end)
+				any_new_result1_upvr_2:HookFunction("RayHit", function(arg1, arg2, arg3) -- Line 577
+					--[[ Upvalues[1]:
+						[1]: OnTouched_upvr (copied, readonly)
+					]]
+					local CastingMesh = arg1.UserData.CastingMesh
+					task.spawn(OnTouched_upvr, arg2.Instance, arg2.Position)
+					if arg1.Pierce <= 1 then
+						if CastingMesh:GetAttribute("CanStick") then
+							CastingMesh.Anchored = false
+							local Weld = Instance.new("Weld")
+							Weld.Name = "Sticky"
+							Weld.Part0 = arg2.Instance
+							Weld.Part1 = CastingMesh
+							Weld.C0 = arg2.Instance.CFrame:Inverse() * CastingMesh.CFrame
+							Weld.Parent = CastingMesh
+						end
+						for _, v_10_upvr in CastingMesh:GetChildren() do
+							if v_10_upvr:IsA("Trail") then
+								task.delay(nil, function() -- Line 595
+									--[[ Upvalues[1]:
+										[1]: v_10_upvr (readonly)
+									]]
+									v_10_upvr.Enabled = false
+								end)
+							end
+						end
+					end
+				end)
+				any_new_result1_upvr_2:HookFunction("RayTerminating", function(arg1) -- Line 604
+					--[[ Upvalues[1]:
+						[1]: any_new_result1_upvr (readonly)
+					]]
+					local CastingMesh_2_upvr = arg1.UserData.CastingMesh
+					local Sticky_upvr_2 = CastingMesh_2_upvr:FindFirstChild("Sticky")
+					if Sticky_upvr_2 then
+						task.delay(3, function() -- Line 610
+							--[[ Upvalues[3]:
+								[1]: Sticky_upvr_2 (readonly)
+								[2]: any_new_result1_upvr (copied, readonly)
+								[3]: CastingMesh_2_upvr (readonly)
+							]]
+							if Sticky_upvr_2 and Sticky_upvr_2.Parent then
+								Sticky_upvr_2:Destroy()
+							end
+							task.delay(1, any_new_result1_upvr.ReturnPart, any_new_result1_upvr, CastingMesh_2_upvr)
+						end)
+					else
+						task.wait(0.03)
+						any_new_result1_upvr:ReturnPart(CastingMesh_2_upvr)
+					end
+				end)
+				local function Hit(arg1, arg2) -- Line 622
+					--[[ Upvalues[12]:
+						[1]: var228_upvr (readonly)
+						[2]: GetMouseHit_upvr (copied, readonly)
+						[3]: UserInputService_upvr (copied, readonly)
+						[4]: LocalPlayer_upvr (copied, readonly)
+						[5]: module_upvr (copied, readonly)
+						[6]: random_state_upvr (copied, readonly)
+						[7]: var22_upvr (copied, readonly)
+						[8]: any_new_result1_upvr_2 (readonly)
+						[9]: any_new_result1_upvr (readonly)
+						[10]: OverlapParams_new_result1_upvr (copied, readonly)
+						[11]: OnTouched_upvr (copied, readonly)
+						[12]: RunService_upvr (copied, readonly)
+					]]
+					-- KONSTANTWARNING: Variable analysis failed. Output will have some incorrect variable assignments
+					local var297
+					local function INLINED_19() -- Internal function, doesn't exist in bytecode
+						var297 = var228_upvr.WorldPosition
+						return var297
+					end
+					local function INLINED_20() -- Internal function, doesn't exist in bytecode
+						var297 = arg2
+						return var297
+					end
+					if not var228_upvr or not INLINED_19() or INLINED_20() then
+						var297 = arg2:GetPivot().Position
+					end
+					local GetMouseHit_result1 = GetMouseHit_upvr()
+					if not UserInputService_upvr.KeyboardEnabled then
+						local var299
+						if var299 then
+							var299 = nil
+							for i_12, v_11 in workspace.Mobs:GetChildren() do
+								local Magnitude_2 = (v_11:GetPivot().Position - var297).Magnitude
+								if Magnitude_2 < 45 then
+									if 0 < v_11:FindFirstChildWhichIsA("Humanoid").Health then
+										var299 = v_11
+									end
+								end
+							end
+							if var299 then
+								v_11 = module_upvr.Ranged
+								i_12 = v_11.Acceleration
+								v_11 = Vector3.new(0, 1, 0)
+								v_11 = module_upvr
+								i_12 = v_11.Ranged
+								i_12 = var299.HumanoidRootPart
+								i_12 = (-(i_12 * v_11) / 10) * (Magnitude_2 / i_12.Velocity)
+								GetMouseHit_result1 = i_12.Position + i_12
+							end
+						end
+					end
+					local LookVector = (CFrame.lookAt(Vector3.new(0, 0, 0), (GetMouseHit_result1 - var297).Unit) * CFrame.fromOrientation(0, 0, random_state_upvr:NextNumber(0, (-math.pi*2))):ToWorldSpace(CFrame.fromOrientation(math.rad(random_state_upvr:NextNumber(var22_upvr.SpreadAngle.Min, var22_upvr.SpreadAngle.Max)), 0, 0))).LookVector
+					local any_Cast_result1_3 = any_new_result1_upvr_2:Cast(var297, LookVector, LookVector.Unit * var22_upvr.Velocity, var22_upvr.Acceleration, var22_upvr.Pierce)
+					if any_Cast_result1_3 then
+						any_new_result1_upvr_2:Share(var297, LookVector, LookVector.Unit * var22_upvr.Velocity, var22_upvr.Acceleration, var22_upvr.CastingMesh, var22_upvr.Pierce)
+						local any_GetPart_result1_upvr = any_new_result1_upvr:GetPart()
+						any_Cast_result1_3.UserData.CastingMesh = any_GetPart_result1_upvr
+						any_GetPart_result1_upvr.CFrame = CFrame.lookAt(var297, var297 + LookVector)
+						for _, v_12 in any_GetPart_result1_upvr:GetDescendants() do
+							if v_12:IsA("Trail") then
+								v_12.Enabled = true
+								v_12:Clear()
+							end
+						end
+						any_Cast_result1_3:Update()
+						task.spawn(function() -- Line 666
+							--[[ Upvalues[4]:
+								[1]: any_GetPart_result1_upvr (readonly)
+								[2]: OverlapParams_new_result1_upvr (copied, readonly)
+								[3]: OnTouched_upvr (copied, readonly)
+								[4]: RunService_upvr (copied, readonly)
+							]]
+							local os_clock_result1 = os.clock()
+							any_GetPart_result1_upvr:SetAttribute("Active", os_clock_result1)
+							while any_GetPart_result1_upvr.Parent ~= nil and any_GetPart_result1_upvr:GetAttribute("Active") == os_clock_result1 do
+								for _, v_13 in workspace:GetPartsInPart(any_GetPart_result1_upvr, OverlapParams_new_result1_upvr) do
+									task.spawn(OnTouched_upvr, v_13)
+								end
+								RunService_upvr.RenderStepped:Wait()
+							end
+						end)
+						task.wait(0.03)
+					end
+				end
+				tbl_2_upvr.Hit = Hit
+				return
+			end
+			var228_upvr = WeaponType_upvr
+			if var228_upvr == "Throwable" then
+				any_new_result1_upvr_2 = Handle_upvr:FindFirstChild("CastPoint")
+				if any_new_result1_upvr_2 then
+					var228_upvr = Handle_upvr
+					any_new_result1_upvr = "CastPoint"
+					var228_upvr = var228_upvr:FindFirstChild(any_new_result1_upvr)
+				else
+					var228_upvr = warn
+					any_new_result1_upvr = Parent_upvr.Name
+					any_new_result1_upvr_2 = any_new_result1_upvr..": For accurate Projectiles add a Attachment \"CastPoint\" into Handle"
+					var228_upvr = var228_upvr(any_new_result1_upvr_2)
+				end
+				any_new_result1_upvr = Casting_upvr
+				any_new_result1_upvr_2 = any_new_result1_upvr.new()
+				local var317_upvr = any_new_result1_upvr_2
+				any_new_result1_upvr = PartCache_upvr.new(ReplicatedStorage_upvr.CastingMesh[var22_upvr.CastingMesh], nil, ProjectileCache_upvr)
+				local var318_upvr = any_new_result1_upvr
+				var317_upvr:HookFunction("LengthChanged", function(arg1) -- Line 689
+					local var320 = arg1.Position + (-arg1.Direction.Unit) * (arg1.UserData.CastingMesh.Size.Z / 2)
+					arg1.UserData.CastingMesh.CFrame = CFrame.lookAt(var320, var320 + arg1.Direction)
+				end)
+				var317_upvr:HookFunction("RayHit", function(arg1, arg2, arg3) -- Line 696
+					--[[ Upvalues[1]:
+						[1]: OnTouched_upvr (copied, readonly)
+					]]
+					task.spawn(OnTouched_upvr, arg2.Instance, arg2.Position)
+				end)
+				var317_upvr:HookFunction("RayTerminating", function(arg1) -- Line 702
+					--[[ Upvalues[1]:
+						[1]: var318_upvr (readonly)
+					]]
+					local CastingMesh_upvr = arg1.UserData.CastingMesh
+					local Sticky_upvr = CastingMesh_upvr:FindFirstChild("Sticky")
+					if Sticky_upvr then
+						task.delay(3, function() -- Line 708
+							--[[ Upvalues[3]:
+								[1]: Sticky_upvr (readonly)
+								[2]: var318_upvr (copied, readonly)
+								[3]: CastingMesh_upvr (readonly)
+							]]
+							if Sticky_upvr and Sticky_upvr.Parent then
+								Sticky_upvr:Destroy()
+							end
+							task.delay(1, var318_upvr.ReturnPart, var318_upvr, CastingMesh_upvr)
+						end)
+					else
+						for _, v_16_upvr in CastingMesh_upvr:GetChildren() do
+							if v_16_upvr:IsA("Trail") then
+								task.delay(nil, function() -- Line 718
+									--[[ Upvalues[1]:
+										[1]: v_16_upvr (readonly)
+									]]
+									v_16_upvr.Enabled = false
+								end)
+							end
+						end
+						task.wait(0.03)
+						var318_upvr:ReturnPart(CastingMesh_upvr)
+					end
+				end)
+				local function Hit(arg1, arg2) -- Line 729
+					--[[ Upvalues[8]:
+						[1]: var228_upvr (readonly)
+						[2]: GetMouseHit_upvr (copied, readonly)
+						[3]: random_state_upvr (copied, readonly)
+						[4]: var22_upvr (copied, readonly)
+						[5]: var317_upvr (readonly)
+						[6]: LocalPlayer_upvr (copied, readonly)
+						[7]: Parent_upvr (copied, readonly)
+						[8]: var318_upvr (readonly)
+					]]
+					local var336
+					local function INLINED_21() -- Internal function, doesn't exist in bytecode
+						var336 = var228_upvr.WorldPosition
+						return var336
+					end
+					local function INLINED_22() -- Internal function, doesn't exist in bytecode
+						var336 = arg2
+						return var336
+					end
+					if not var228_upvr or not INLINED_21() or INLINED_22() then
+						var336 = arg2:GetPivot().Position
+					end
+					local LookVector_2 = (CFrame.lookAt(Vector3.new(0, 0, 0), (GetMouseHit_upvr() - var336).Unit) * CFrame.fromOrientation(0, 0, random_state_upvr:NextNumber(0, (-math.pi*2))):ToWorldSpace(CFrame.fromOrientation(math.rad(random_state_upvr:NextNumber(var22_upvr.SpreadAngle.Min, var22_upvr.SpreadAngle.Max)), 0, 0))).LookVector
+					local any_Cast_result1 = var317_upvr:Cast(var336, LookVector_2, LookVector_2.Unit * var22_upvr.Velocity, var22_upvr.Acceleration, var22_upvr.Pierce, nil, nil, nil, nil, var22_upvr, LocalPlayer_upvr, Parent_upvr)
+					if any_Cast_result1 then
+						var317_upvr:Share(var336, LookVector_2, LookVector_2.Unit * var22_upvr.Velocity, var22_upvr.Acceleration, var22_upvr.CastingMesh, var22_upvr.Pierce)
+						local any_GetPart_result1 = var318_upvr:GetPart()
+						any_Cast_result1.UserData.CastingMesh = any_GetPart_result1
+						if var22_upvr.CanBounce then
+							any_GetPart_result1:SetAttribute("Bounce", true)
+						end
+						any_GetPart_result1.CFrame = CFrame.lookAt(var336, var336 + LookVector_2)
+						for _, v_14 in any_GetPart_result1:GetDescendants() do
+							if v_14:IsA("Trail") then
+								v_14.Enabled = true
+								v_14:Clear()
+							end
+						end
+						any_Cast_result1:Update()
+						task.wait(0.03)
+					end
+				end
+				tbl_2_upvr.Hit = Hit
+				return
+			end
+			var228_upvr = WeaponType_upvr
+			if var228_upvr == "Magic" then
+				var317_upvr = Handle_upvr:FindFirstChild("CastPoint")
+				if var317_upvr then
+					var228_upvr = Handle_upvr
+					var318_upvr = "CastPoint"
+					var228_upvr = var228_upvr:FindFirstChild(var318_upvr)
+				else
+					var228_upvr = warn
+					var318_upvr = Parent_upvr.Name
+					var317_upvr = var318_upvr..": For accurate Projectiles add a Attachment \"CastPoint\" into Handle"
+					var228_upvr = var228_upvr(var317_upvr)
+				end
+				var317_upvr = require
+				var318_upvr = ReplicatedStorage_upvr.Modules.Magic
+				var317_upvr = var317_upvr(var318_upvr)
+				var318_upvr = var317_upvr.new()
+				local var343_upvr = var318_upvr
+				var343_upvr:HookFunction("MagicRayHit", function(arg1, arg2) -- Line 774
+					--[[ Upvalues[4]:
+						[1]: OnTouched_upvr (copied, readonly)
+						[2]: Parent_upvr (copied, readonly)
+						[3]: OverlapParams_new_result1_upvr (copied, readonly)
+						[4]: RunService_upvr (copied, readonly)
+					]]
+					if arg2 then
+						OnTouched_upvr(arg2.Instance)
+					end
+					if arg1.AOE then
+						if typeof(arg1.AOE) ~= "boolean" then
+							local AOE = arg1.AOE
+							while not Parent_upvr.Enabled do
+								for _, v_15 in workspace:GetPartBoundsInBox(AOE.CFrame, AOE.Size, OverlapParams_new_result1_upvr) do
+									OnTouched_upvr(v_15)
+								end
+								RunService_upvr.Heartbeat:Wait()
+							end
+						end
+					end
+				end)
+				local var351_upvw = false
+				local var352_upvw
+				local function Hit(arg1, arg2) -- Line 791
+					--[[ Upvalues[11]:
+						[1]: var351_upvw (read and write)
+						[2]: ReplicatedStorage_upvr (copied, readonly)
+						[3]: WeaponType_upvr (copied, readonly)
+						[4]: module_upvr (copied, readonly)
+						[5]: var228_upvr (readonly)
+						[6]: GetMouseHit_upvr (copied, readonly)
+						[7]: random_state_upvr (copied, readonly)
+						[8]: var352_upvw (read and write)
+						[9]: var343_upvr (readonly)
+						[10]: var22_upvr (copied, readonly)
+						[11]: tbl_2_upvr (copied, readonly)
+					]]
+					-- KONSTANTWARNING: Variable analysis failed. Output will have some incorrect variable assignments
+					-- KONSTANTERROR: [0] 1. Error Block 36 start (CF ANALYSIS FAILED)
+					local var353
+					if not var351_upvw then
+						var353 = ReplicatedStorage_upvr.Remotes
+						var351_upvw = var353.SpellCast:InvokeServer()
+						if not var351_upvw then return end
+						local function INLINED_23() -- Internal function, doesn't exist in bytecode
+							var353 = module_upvr.Cooldown
+							return var353
+						end
+						if WeaponType_upvr ~= "Melee" or not INLINED_23() then
+							var353 = module_upvr.Cooldown / 2
+							if not var353 then
+								var353 = 0.5
+							end
+						end
+						task.delay(var353, function() -- Line 795
+							--[[ Upvalues[1]:
+								[1]: var351_upvw (copied, read and write)
+							]]
+							var351_upvw = false
+						end)
+					end
+					if not var228_upvr or not var228_upvr.WorldPosition or arg2 then
+						local Position = arg2:GetPivot().Position
+					end
+					local LookVector_upvw = (CFrame.lookAt(Vector3.new(0, 0, 0), (GetMouseHit_upvr() - Position).Unit) * CFrame.fromOrientation(0, 0, random_state_upvr:NextNumber(0, (-math.pi*2))):ToWorldSpace(CFrame.fromOrientation(0, 0, 0))).LookVector
+					if not var352_upvw or var352_upvw and not var352_upvw.Alive then
+						var352_upvw = var343_upvr:Cast(Position, LookVector_upvw, 20, var22_upvr.CastingType, var22_upvr.Size, var22_upvr.AOE, var22_upvr.BlastRadius, var22_upvr.ColorTheme, var22_upvr.Distance)
+						tbl_2_upvr.Spell = var352_upvw
+						if var352_upvw then
+							var343_upvr:Share(Position, LookVector_upvw, 20, var22_upvr.CastingType, var22_upvr.Size, var22_upvr.AOE, var22_upvr.BlastRadius, var22_upvr.ColorTheme, var22_upvr.Distance)
+							var352_upvw:Fire()
+							-- KONSTANTWARNING: GOTO [190] #146
+						end
+					else
+						var352_upvw.Origin = Position
+						var352_upvw.Target = LookVector_upvw
+						var343_upvr:Share(Position, LookVector_upvw, 20, var22_upvr.CastingType, var22_upvr.Size, var22_upvr.AOE, var22_upvr.BlastRadius, var22_upvr.ColorTheme, var22_upvr.Distance)
+						var352_upvw:Fire()
+						task.delay(1, function() -- Line 819
+							--[[ Upvalues[2]:
+								[1]: var352_upvw (copied, read and write)
+								[2]: LookVector_upvw (read and write)
+							]]
+							if var352_upvw.Target == LookVector_upvw then
+								var352_upvw:Terminate()
+							end
+						end)
+					end
+					-- KONSTANTERROR: [0] 1. Error Block 36 end (CF ANALYSIS FAILED)
+					-- KONSTANTERROR: [190] 146. Error Block 23 start (CF ANALYSIS FAILED)
+					-- KONSTANTERROR: [190] 146. Error Block 23 end (CF ANALYSIS FAILED)
+				end
+				tbl_2_upvr.Hit = Hit
+				return
+			end
+			if WeaponType_upvr == "Potion" then
+				local function Hit(arg1) -- Line 827
+					--[[ Upvalues[3]:
+						[1]: LocalPlayer_upvr (copied, readonly)
+						[2]: ReplicatedStorage_upvr (copied, readonly)
+						[3]: Parent_upvr (copied, readonly)
+					]]
+					ReplicatedStorage_upvr.Remotes.EffectPlayer:InvokeServer(Parent_upvr.Name, LocalPlayer_upvr:GetAttribute("PotionsUsed"))
+				end
+				var317_upvr = tbl_2_upvr
+				var317_upvr.Hit = Hit
+				return
+			end
+			if WeaponType_upvr == "Summon" then
+				var317_upvr = tbl_2_upvr
+				function var317_upvr.Hit(arg1) -- Line 832
+					--[[ Upvalues[2]:
+						[1]: ReplicatedStorage_upvr (copied, readonly)
+						[2]: Parent_upvr (copied, readonly)
+					]]
+					ReplicatedStorage_upvr.Remotes.RequestSummon:FireServer(Parent_upvr.Name)
+				end
+			end
+		end
+	end)()
+end
+local tbl_3_upvw = {}
+UserInputService_upvr.InputBegan:Connect(function(arg1, arg2) -- Line 1066
+	--[[ Upvalues[3]:
+		[1]: var25_upvw (read and write)
+		[2]: Parent_upvr (readonly)
+		[3]: UserInputService_upvr (readonly)
+	]]
+	if var25_upvw and Parent_upvr:IsDescendantOf(workspace) and not arg2 and arg1.UserInputType == Enum.UserInputType.MouseButton1 then
+		while var25_upvw and Parent_upvr:IsDescendantOf(workspace) and UserInputService_upvr:IsMouseButtonPressed(Enum.UserInputType.MouseButton1) do
+			Parent_upvr:Activate()
+			task.wait(0.1)
+		end
+	end
+end)
+local var371_upvw
+Parent_upvr.Activated:Connect(function() -- Line 846, Named "OnActivated"
+	--[[ Upvalues[13]:
+		[1]: LocalPlayer_upvr (readonly)
+		[2]: module_upvr (readonly)
+		[3]: Parent_upvr (readonly)
+		[4]: tbl_5_upvr (readonly)
+		[5]: tbl_2_upvr (readonly)
+		[6]: tbl_4_upvr (readonly)
+		[7]: WeaponType_upvr (readonly)
+		[8]: var22_upvr (readonly)
+		[9]: var28_upvw (read and write)
+		[10]: var27_upvw (read and write)
+		[11]: ReplicatedStorage_upvr (readonly)
+		[12]: var26_upvw (read and write)
+		[13]: UserInputService_upvr (readonly)
+	]]
+	-- KONSTANTERROR: [0] 1. Error Block 1 start (CF ANALYSIS FAILED)
+	local Character = LocalPlayer_upvr.Character
+	-- KONSTANTERROR: [0] 1. Error Block 1 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [4] 4. Error Block 2 start (CF ANALYSIS FAILED)
+	do
+		return
+	end
+	-- KONSTANTERROR: [4] 4. Error Block 2 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [5] 5. Error Block 3 start (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [5] 5. Error Block 3 end (CF ANALYSIS FAILED)
+end)
+Parent_upvr.Equipped:Connect(function() -- Line 956, Named "OnEquipped"
+	--[[ Upvalues[17]:
+		[1]: LocalPlayer_upvr (readonly)
+		[2]: var25_upvw (read and write)
+		[3]: Parent_upvr (readonly)
+		[4]: var29_upvw (read and write)
+		[5]: ReplicatedStorage_upvr (readonly)
+		[6]: var87_upvw (read and write)
+		[7]: var88_upvw (read and write)
+		[8]: v_upvr (readonly)
+		[9]: EquipAnimation_upvr (readonly)
+		[10]: var26_upvw (read and write)
+		[11]: HoldAnimation_upvr (readonly)
+		[12]: var28_upvw (read and write)
+		[13]: WalkAnimation_upvr (readonly)
+		[14]: WeaponType_upvr (readonly)
+		[15]: var24_upvw (read and write)
+		[16]: var27_upvw (read and write)
+		[17]: tbl_3_upvw (read and write)
+	]]
+	local Character_3 = LocalPlayer_upvr.Character
+	if not Character_3 then
+	else
+		local Humanoid_upvr = Character_3:WaitForChild("Humanoid")
+		var25_upvw = true
+		Parent_upvr:SetAttribute("Equip", os.clock())
+		Parent_upvr:SetAttribute("Active", nil)
+		if var29_upvw ~= 0 then
+			ReplicatedStorage_upvr.Remotes.ToolActivated:FireServer(Parent_upvr, true)
+			var29_upvw = 0
+		end
+		var87_upvw = 1
+		var88_upvw = 1
+		if v_upvr then
+			v_upvr:Play()
+		end
+		if EquipAnimation_upvr then
+			local any_LoadAnimation_result1_5 = Humanoid_upvr:WaitForChild("Animator"):LoadAnimation(EquipAnimation_upvr)
+			any_LoadAnimation_result1_5.Priority = Enum.AnimationPriority.Action3
+			any_LoadAnimation_result1_5.Looped = nil
+			local var363 = any_LoadAnimation_result1_5
+			var363.Name = "Destroyable"..Parent_upvr.Name
+			var363:Play()
+			var26_upvw = var363
+		end
+		if HoldAnimation_upvr then
+			if var28_upvw then
+				var28_upvw:Destroy()
+				var28_upvw = nil
+			end
+			local any_LoadAnimation_result1_4 = Humanoid_upvr:WaitForChild("Animator"):LoadAnimation(HoldAnimation_upvr)
+			any_LoadAnimation_result1_4.Priority = Enum.AnimationPriority.Action
+			any_LoadAnimation_result1_4.Looped = true
+			var28_upvw = any_LoadAnimation_result1_4
+			var28_upvw.Name = "Destroyable"..Parent_upvr.Name
+			if not WalkAnimation_upvr or Humanoid_upvr.MoveDirection.Magnitude <= 0.1 or WeaponType_upvr ~= "Throwable" or Parent_upvr.Enabled then
+				var28_upvw:Play()
+			end
+			var24_upvw = var28_upvw
+		end
+		if WalkAnimation_upvr then
+			if var27_upvw then
+				var27_upvw:Destroy()
+				var27_upvw = nil
+			end
+			local any_LoadAnimation_result1_3 = Humanoid_upvr:WaitForChild("Animator"):LoadAnimation(WalkAnimation_upvr)
+			any_LoadAnimation_result1_3.Priority = Enum.AnimationPriority.Action2
+			any_LoadAnimation_result1_3.Looped = true
+			var27_upvw = any_LoadAnimation_result1_3
+			var27_upvw.Name = "Destroyable"..Parent_upvr.Name
+			if WeaponType_upvr ~= "Throwable" or Parent_upvr.Enabled then
+				var27_upvw:Play()
+			end
+			local var366_upvw = false
+			local function CheckMovement_upvr(arg1, arg2) -- Line 1023, Named "CheckMovement"
+				--[[ Upvalues[6]:
+					[1]: WeaponType_upvr (copied, readonly)
+					[2]: Parent_upvr (copied, readonly)
+					[3]: Humanoid_upvr (readonly)
+					[4]: var366_upvw (read and write)
+					[5]: var27_upvw (copied, read and write)
+					[6]: var28_upvw (copied, read and write)
+				]]
+				if WeaponType_upvr == "Throwable" and not Parent_upvr.Enabled then
+				else
+					if arg2 or 0.1 < Humanoid_upvr.MoveDirection.Magnitude then
+						if var366_upvw then
+						else
+							var366_upvw = true
+							var27_upvw.TimePosition = var28_upvw.TimePosition
+							var27_upvw:Play(0.25)
+							var28_upvw:Stop(0.25)
+						end
+					end
+					if arg2 == false or var366_upvw then
+						if arg2 == false and var366_upvw then return end
+						var366_upvw = false
+						var28_upvw.TimePosition = var27_upvw.TimePosition
+						var28_upvw:Play(0.25)
+						var27_upvw:Stop(0.25)
+					end
+				end
+			end
+			tbl_3_upvw[#tbl_3_upvw + 1] = Humanoid_upvr.Jumping:Connect(function() -- Line 1047
+				--[[ Upvalues[1]:
+					[1]: CheckMovement_upvr (readonly)
+				]]
+				CheckMovement_upvr(nil, true)
+			end)
+			tbl_3_upvw[#tbl_3_upvw + 1] = Humanoid_upvr.StateChanged:Connect(function(arg1, arg2) -- Line 1051
+				--[[ Upvalues[1]:
+					[1]: CheckMovement_upvr (readonly)
+				]]
+				if arg2 == Enum.HumanoidStateType.Landed then
+					CheckMovement_upvr(nil, false)
+				end
+			end)
+			tbl_3_upvw[#tbl_3_upvw + 1] = Humanoid_upvr.Running:Connect(CheckMovement_upvr)
+			CheckMovement_upvr()
+			Parent_upvr:GetPropertyChangedSignal("Enabled"):Connect(function() -- Line 1060
+				--[[ Upvalues[1]:
+					[1]: CheckMovement_upvr (readonly)
+				]]
+				task.defer(CheckMovement_upvr)
+			end)
+		end
+	end
+end)
+Parent_upvr.Unequipped:Connect(function() -- Line 1075, Named "OnUnequipped"
+	--[[ Upvalues[10]:
+		[1]: LocalPlayer_upvr (readonly)
+		[2]: Parent_upvr (readonly)
+		[3]: os_clock_result1_4_upvw (read and write)
+		[4]: tbl_3_upvw (read and write)
+		[5]: var25_upvw (read and write)
+		[6]: v_upvr (readonly)
+		[7]: var23_upvw (read and write)
+		[8]: var24_upvw (read and write)
+		[9]: var27_upvw (read and write)
+		[10]: var371_upvw (read and write)
+	]]
+	local Character_2 = LocalPlayer_upvr.Character
+	if not Character_2 then
+	else
+		Parent_upvr:SetAttribute("Equip", nil)
+		Parent_upvr:SetAttribute("Active", nil)
+		if os_clock_result1_4_upvw == Character_2:GetAttribute("Swinging") then
+			Character_2:SetAttribute("Swinging", nil)
+		end
+		for _, v_9 in tbl_3_upvw do
+			v_9:Disconnect()
+		end
+		tbl_3_upvw = {}
+		var25_upvw = false
+		if v_upvr and v_upvr.IsPlaying then
+			v_upvr:Stop()
+		end
+		if var23_upvw then
+			var23_upvw:Stop(0.25)
+		end
+		if var24_upvw then
+			var24_upvw:Stop(0.25)
+		end
+		if var27_upvw then
+			var27_upvw:Stop(0.25)
+		end
+		if var371_upvw then
+			var371_upvw:Disconnect()
+			var371_upvw = nil
+		end
+	end
+end)
